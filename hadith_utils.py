@@ -11,11 +11,12 @@ class HadeethView(discord.ui.View):
     """
     MAX_CHARS = 4096
 
-    def __init__(self, data: dict, title: str, timeout: float | None = None):
+    def __init__(self, data: dict, title: str, timeout: float | None = 86400):
         super().__init__(timeout=timeout)
         self.data = data
         self.title = title
         self.message_footer = ""
+        self.message: discord.Message | None = None
 
         self.pages: list[tuple[str, str]] = []  # (label, contenu)
         self.current = 0
@@ -177,15 +178,21 @@ class HadeethView(discord.ui.View):
         for item in self.children:
             if isinstance(item, discord.ui.Button):
                 item.disabled = True
+        if self.message is not None:
+            try:
+                await self.message.edit(view=self)
+            except Exception:
+                pass
 
 
 class HadeethCategoryListView(discord.ui.View):
-    def __init__(self, category_id: int, category_label: str, items_pages: list[list[dict]], timeout: float | None = None):
+    def __init__(self, category_id: int, category_label: str, items_pages: list[list[dict]], timeout: float | None = 86400):
         super().__init__(timeout=timeout)
         self.category_id = category_id
         self.category_label = category_label
         self.items_pages = items_pages
         self.current = 0
+        self.message: discord.Message | None = None
 
     def make_embed(self) -> discord.Embed:
         total_pages = max(1, len(self.items_pages))
@@ -234,6 +241,11 @@ class HadeethCategoryListView(discord.ui.View):
         for item in self.children:
             if isinstance(item, discord.ui.Button):
                 item.disabled = True
+        if self.message is not None:
+            try:
+                await self.message.edit(view=self)
+            except Exception:
+                pass
 
 
 async def hadeeth_category_autocomplete(ctx: discord.AutocompleteContext):

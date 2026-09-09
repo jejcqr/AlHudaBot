@@ -348,7 +348,7 @@ class QuranCog(discord.Cog):
 
         if len(pages) > 1:
             view = QuranSearchPaginator(pages, title)
-            await ctx.respond(embed=embed, view=view)
+            view.message = await ctx.respond(embed=embed, view=view)
         else:
             await ctx.respond(embed=embed)
 
@@ -381,7 +381,7 @@ class QuranCog(discord.Cog):
 
         view = QuranSurahView(sourate=sourate, verses=verses, per_page=5)
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(
         name="randomsourate",
@@ -412,7 +412,7 @@ class QuranCog(discord.Cog):
 
         view = QuranSurahView(sourate=sura, verses=verses, per_page=5)
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
 
 def setup(bot: discord.Bot):

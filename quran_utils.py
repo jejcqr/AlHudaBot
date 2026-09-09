@@ -33,12 +33,13 @@ async def get_timezone_suggestions(ctx: discord.AutocompleteContext):
 
 
 class QuranSurahView(discord.ui.View):
-    def __init__(self, sourate: int, verses: list[dict], per_page: int = 5):
-        super().__init__(timeout=None)
+    def __init__(self, sourate: int, verses: list[dict], per_page: int = 5, timeout: float | None = 86400):
+        super().__init__(timeout=timeout)
         self.sourate = sourate
         self.verses = verses
         self.per_page = per_page
         self.current = 0
+        self.message: discord.Message | None = None
 
     def make_embed(self) -> discord.Embed:
         total_pages = max(1, ceil(len(self.verses) / self.per_page))
@@ -82,14 +83,20 @@ class QuranSurahView(discord.ui.View):
         for item in self.children:
             if isinstance(item, discord.ui.Button):
                 item.disabled = True
+        if self.message is not None:
+            try:
+                await self.message.edit(view=self)
+            except Exception:
+                pass
 
 
 class QuranSearchPaginator(discord.ui.View):
-    def __init__(self, pages: List[str], title: str, timeout: float | None = None):
+    def __init__(self, pages: List[str], title: str, timeout: float | None = 86400):
         super().__init__(timeout=timeout)
         self.pages = pages
         self.title = title
         self.current = 0
+        self.message: discord.Message | None = None
 
     async def update_message(self, interaction: discord.Interaction):
         self.prev_button.disabled = self.current == 0
@@ -117,3 +124,8 @@ class QuranSearchPaginator(discord.ui.View):
         for item in self.children:
             if isinstance(item, discord.ui.Button):
                 item.disabled = True
+        if self.message is not None:
+            try:
+                await self.message.edit(view=self)
+            except Exception:
+                pass

@@ -106,7 +106,7 @@ class HadithCog(discord.Cog):
                 if channel is None:
                     continue
 
-                await channel.send(embed=embed, view=view)
+                view.message = await channel.send(embed=embed, view=view)
             except Exception as e:
                 print(f"Erreur d'envoi hadith du jour pour guild {guild_id}: {e}")
 
@@ -188,7 +188,7 @@ class HadithCog(discord.Cog):
             view.message_footer = f"Hadith HadeethEnc ID {h_id}" if h_id else "Hadith HadeethEnc"
 
             embed = view.make_embed()
-            await ctx.respond(embed=embed, view=view)
+            view.message = await ctx.respond(embed=embed, view=view)
             return
 
         category_id = categorie
@@ -238,7 +238,7 @@ class HadithCog(discord.Cog):
         view.message_footer = f"Hadith HadeethEnc ID {hid}"
 
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(
         name="listhadiths",
@@ -281,7 +281,7 @@ class HadithCog(discord.Cog):
 
         view = HadeethCategoryListView(category_id=category_id, category_label=label, items_pages=pages)
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(
         name="hadith",
@@ -319,7 +319,7 @@ class HadithCog(discord.Cog):
         view.message_footer = f"Hadith HadeethEnc ID {id}"
 
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(
         name="dailyhadith",
@@ -378,7 +378,7 @@ class HadithCog(discord.Cog):
         view.message_footer = f"Hadith HadeethEnc ID {h_id}" if h_id else "Hadith HadeethEnc"
 
         embed = view.make_embed()
-        await ctx.respond(embed=embed, view=view)
+        view.message = await ctx.respond(embed=embed, view=view)
 
     @discord.slash_command(
         name="setdailyhadith",
