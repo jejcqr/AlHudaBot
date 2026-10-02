@@ -220,6 +220,8 @@ class QuranCog(discord.Cog):
 
     @discord.slash_command(
         name="setdailyaya",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Configure l'envoi automatique de l'aya du jour (Coran) dans ce serveur."
     )
     @option("heure", description="Heure (0-23) dans le fuseau choisi, ex: 8", required=True)
@@ -260,6 +262,8 @@ class QuranCog(discord.Cog):
 
     @discord.slash_command(
         name="disabledailyaya",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Désactive l'envoi automatique de l'aya du jour dans ce serveur."
     )
     async def disabledailyaya(self, ctx: discord.ApplicationContext):

@@ -7,6 +7,48 @@ from mysql.connector import Error
 from config import DB_CONFIG
 
 
+# Tables de réglages créées au démarrage si elles n'existent pas encore.
+SETTINGS_TABLES = [
+    """
+    CREATE TABLE IF NOT EXISTS quran_daily_verse_settings (
+        guild_id   BIGINT UNSIGNED PRIMARY KEY,
+        channel_id BIGINT UNSIGNED NOT NULL,
+        hour       TINYINT UNSIGNED NOT NULL,
+        minute     TINYINT UNSIGNED NOT NULL,
+        timezone   VARCHAR(64) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS hadith_daily_settings (
+        guild_id   BIGINT UNSIGNED PRIMARY KEY,
+        channel_id BIGINT UNSIGNED NOT NULL,
+        hour       TINYINT UNSIGNED NOT NULL,
+        minute     TINYINT UNSIGNED NOT NULL,
+        timezone   VARCHAR(64) NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS hadith_daily_cache (
+        date_str   CHAR(10) PRIMARY KEY,
+        hadeeth_id INT UNSIGNED NOT NULL,
+        label      VARCHAR(255) NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    """,
+]
+
+
+def ensure_settings_tables():
+    cnx = mysql.connector.connect(**DB_CONFIG)
+    try:
+        cursor = cnx.cursor()
+        for statement in SETTINGS_TABLES:
+            cursor.execute(statement)
+        cnx.commit()
+        cursor.close()
+    finally:
+        cnx.close()
+
+
 # =========================
 # Coran
 # =========================

@@ -382,6 +382,8 @@ class HadithCog(discord.Cog):
 
     @discord.slash_command(
         name="setdailyhadith",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Configure l'envoi automatique du hadith du jour (HadeethEnc) dans ce serveur."
     )
     @option("heure", description="Heure (0-23) dans le fuseau choisi, ex: 8", required=True)
@@ -422,6 +424,8 @@ class HadithCog(discord.Cog):
 
     @discord.slash_command(
         name="disabledailyhadith",
+        default_member_permissions=discord.Permissions(manage_guild=True),
+        contexts={discord.InteractionContextType.guild},
         description="Désactive l'envoi automatique du hadith du jour dans ce serveur."
     )
     async def disabledailyhadith(self, ctx: discord.ApplicationContext):

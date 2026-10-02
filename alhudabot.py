@@ -2,6 +2,7 @@ import discord
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from config import TOKEN
+from database import ensure_settings_tables
 
 # =========================
 # Config Discord
@@ -17,6 +18,9 @@ EXTENSIONS = [
     "cogs.help",
     "cogs.admin",
 ]
+
+# Avant le chargement des modules : ils lisent les réglages dès leur initialisation.
+ensure_settings_tables()
 
 for extension in EXTENSIONS:
     bot.load_extension(extension)
