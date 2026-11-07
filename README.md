@@ -48,8 +48,17 @@ aya ou un hadith dans un salon.
 mysql -u root -p -e "CREATE DATABASE alhuda CHARACTER SET utf8mb4;
   CREATE USER 'alhudauser'@'localhost' IDENTIFIED BY 'motdepasse';
   GRANT ALL PRIVILEGES ON alhuda.* TO 'alhudauser'@'localhost';"
-mysql -u root -p alhuda < quran_data.sql
 ```
+
+Charger le Coran (texte arabe et traduction de Hamidullah) depuis Tanzil, après
+avoir lu le fichier [NOTICE](NOTICE) :
+
+```bash
+pip install -r requirements.txt
+DB_PASSWORD=motdepasse python scripts/import_quran_data.py --accept-tanzil-terms
+```
+
+(`--dry-run` télécharge et vérifie les données sans toucher à la base.)
 
 Puis créer les tables des envois automatiques et du cache des hadiths :
 
@@ -111,8 +120,14 @@ quran_utils.py    mise en forme et pagination des ayas
 hadeeth_api.py    client de l'API HadeethEnc
 hadith_utils.py   mise en forme des hadiths
 cogs/             commandes Discord regroupées par thème
-quran_data.sql    texte arabe et traduction française du Coran
+scripts/          import des données du Coran depuis Tanzil
+NOTICE            origine et conditions d'utilisation des textes du Coran
 ```
+
+## Licence
+
+Code sous [licence MIT](LICENSE). Le texte du Coran et sa traduction ne sont pas
+inclus et restent soumis aux conditions de Tanzil (voir [NOTICE](NOTICE)).
 
 ## Voir aussi
 

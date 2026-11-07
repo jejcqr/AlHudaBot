@@ -1,0 +1,21 @@
+Données du Coran
+================
+
+Ce dépôt ne contient PAS le texte du Coran ni sa traduction. Le script
+scripts/import_quran_data.py les télécharge depuis Tanzil (https://tanzil.net) :
+
+- texte arabe (édition uthmani) ;
+- traduction française de Muhammad Hamidullah (fr.hamidullah).
+
+Ces textes sont distribués par Tanzil sous leurs propres conditions, qui
+n'autorisent pas la modification du texte et exigent de citer la source.
+Elles sont à lire sur https://tanzil.net/docs/Text_License (texte arabe, CC BY 3.0)
+et https://tanzil.net/trans/ (traductions). En lançant le script avec
+--accept-tanzil-terms, vous confirmez les avoir lues et acceptées.
+
+Le texte et la traduction restent la propriété de leurs auteurs respectifs
+et ne sont pas couverts par la licence MIT de ce dépôt (qui ne s'applique
+qu'au code).
+
+Hadiths : API de l'Encyclopédie des hadiths traduits (https://hadeethenc.com),
+interrogée à l'exécution ; voir ses conditions d'utilisation.

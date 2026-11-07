@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 *.log
 .env
+
+# données du Coran (non redistribuées, voir NOTICE)
+quran_data.sql
