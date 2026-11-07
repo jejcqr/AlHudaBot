@@ -1,0 +1,13 @@
+services:
+  alhudabot:
+    build: .
+    container_name: alhudabot
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_HOST: mariadb
+    networks:
+      - mariadb_default
+networks:
+  mariadb_default:
+    external: true
