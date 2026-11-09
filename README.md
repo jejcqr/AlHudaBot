@@ -35,8 +35,9 @@ aya ou un hadith dans un salon.
 
 ## Technologies
 
-- **Python 3.10+** avec [py-cord](https://pycord.dev) (commandes slash, vues à boutons)
+- **Python 3.10 à 3.13** avec [py-cord](https://pycord.dev) (commandes slash, vues à boutons)
 - **MySQL / MariaDB** via `mysql-connector-python`, requêtes paramétrées
+- **Docker** : `Dockerfile` (image `python:3.13-slim`) et `docker-compose.yml` fournis
 - **APScheduler** pour les envois quotidiens, **pytz** pour les fuseaux horaires
 - **API HadeethEnc** (`hadeethenc.com/api/v1`) pour les hadiths
 
@@ -86,6 +87,21 @@ CREATE TABLE IF NOT EXISTS hadith_daily_cache (
 
 ### 3. Lancement
 
+#### Avec Docker (méthode utilisée en production)
+
+1. Copier `.env.example` en `.env` et renseigner `DISCORD_TOKEN` et `DB_PASSWORD`.
+2. Le `docker-compose.yml` fourni se connecte à un réseau Docker **externe** nommé `mariadb_default`,
+   dans lequel un conteneur `mariadb` héberge la base (`DB_HOST: mariadb`). Adaptez ces lignes à votre
+   installation (autre réseau, autre hôte, ou base installée sur la machine).
+3. Construire et lancer :
+
+```bash
+docker compose up -d --build
+docker compose logs -f
+```
+
+#### Sans Docker
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -113,15 +129,18 @@ permissions de l'utilisateur : pensez à les réserver aux modérateurs dans
 ## Structure
 
 ```
-alhudabot.py      démarrage, chargement des modules, planificateur
-config.py         configuration (jeton, base, URL de l'API)
-database.py       accès à la base (ayas, recherche, réglages, cache du hadith du jour)
-quran_utils.py    mise en forme et pagination des ayas
-hadeeth_api.py    client de l'API HadeethEnc
-hadith_utils.py   mise en forme des hadiths
-cogs/             commandes Discord regroupées par thème
-scripts/          import des données du Coran depuis Tanzil
-NOTICE            origine et conditions d'utilisation des textes du Coran
+alhudabot.py        démarrage, chargement des modules, planificateur
+config.py           configuration (jeton, base, URL de l'API)
+database.py         accès à la base (ayas, recherche, réglages, cache du hadith du jour)
+quran_utils.py      mise en forme et pagination des ayas
+hadeeth_api.py      client de l'API HadeethEnc
+hadith_utils.py     mise en forme des hadiths
+cogs/               commandes Discord regroupées par thème
+scripts/            import des données du Coran depuis Tanzil
+NOTICE              origine et conditions d'utilisation des textes du Coran
+Dockerfile          image Docker du bot
+docker-compose.yml  lancement avec Docker
+.env.example        modèle de configuration (variables d'environnement)
 ```
 
 ## Licence
